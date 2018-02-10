@@ -1,4 +1,5 @@
 from flask import Flask, Response, request
+import nmap
 import sqlite3 as sql
 
 app = Flask(__name__)
@@ -105,6 +106,40 @@ def get_macs():
     conn.close()
 
     return macs
+
+def scan_for_macs():
+    """
+    DON'T USE!!!!
+
+    This function scans the network for all current mac addresses and populates the
+    global variable scanned_macs with their values
+    """
+
+    nm = nmap.PortScanner()
+    nm.scan(hosts='192.168.1.0/24', arguments='-sP')
+
+    host_list = nm.all_hosts()
+    for host in host_list:
+        if 'mac' in nm[host]['addresses']:
+            scanned_macs.append(nm[host]['addresses']['mac'])
+
+def db_scanned_macs():
+    """
+    This function returns the database values of the current devices connected to
+    the network
+    """
+
+    return_list = []
+    
+    conn = connect()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM scanned")
+
+    for i in c.fetchall():
+        return_list.append(i[0])
+
+    return return_list
     
 def match_macs(mac):
     """
@@ -120,7 +155,12 @@ def match_macs(mac):
     return mac in get_macs()
 
 if __name__ == "__main__":
+    print("you're running this wrong")
+    """
     main()
     print(get_macs())
     print(match_macs("eyeyeyey"))
     print(match_macs("eyeyeyea"))
+    print(db_scanned_macs())
+    """
+    
