@@ -99,3 +99,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# vimstuff
+*.swo
+*.un~
+*.swp
+
+# venv stuff
+bin/
+lib64
+pyvenv.cfg
+share/
+pip-selfcheck.json
