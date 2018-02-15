@@ -1,4 +1,5 @@
 from flask import Flask, Response, request
+import json
 import nmap
 import sqlite3 as sql
 
@@ -18,6 +19,64 @@ def insert():
        else:
            return "nah"
 
+@app.route('/devices', methods=['GET'])
+def devices():
+    """
+    This returns a list of device, mac address keypairs
+    """
+    error = None
+    if request.method == 'GET':
+        return json.dumps(get_devices())
+
+@app.route('/devices/delete', methods=['POST'])
+def delete():
+    """
+    This deletes the specified name
+    """
+    if request.method == 'POST':
+        if request.form['name']:
+            delete_name(request.form['name'])
+            return "gagaa"
+        elif request.form['mac']:
+            delete_name(request.form['mac'])
+            return "gogoo"
+
+def delete_name(name):
+    """
+    This function will delete based on the name
+    """
+
+    conn = connect()
+    c = conn.cursor()
+
+    c.execute("""DELETE FROM devices 
+                 WHERE name = ?""",(name,))
+
+    conn.commit()
+    conn.close()
+
+def get_devices():
+    """
+    This function returns all the devices name's and their mac addresses
+    currently in the devices table
+
+    Returns:
+        str[]: A list of all devices in the table
+    """
+    devices = []
+    
+    conn = connect()
+    c = conn.cursor()
+
+    for row in c.execute("""SELECT * FROM devices"""):
+        devices.append((row[1],row[2]))
+    
+    conn.close()
+
+    return devices
+
+
+
 
 def valid_insert(name, mac):
     """
@@ -31,8 +90,8 @@ def valid_insert(name, mac):
     Returns:
         bool: True for valid/safe to insert, false for not
     """
-    if type(name) == str and name.len() < 100:
-        if type(mac) == str and mac.len() < 100:
+    if type(name) == str and len(name) < 100:
+        if type(mac) == str and len(mac) < 100:
             return True
     return False
 
@@ -92,9 +151,7 @@ def get_macs():
 
     Returns:
         str[]: A list of all mac addresses inside the table devices
-    """
- 
-    
+    """ 
     macs = []
     
     conn = connect()
@@ -106,22 +163,6 @@ def get_macs():
     conn.close()
 
     return macs
-
-def scan_for_macs():
-    """
-    DON'T USE!!!!
-
-    This function scans the network for all current mac addresses and populates the
-    global variable scanned_macs with their values
-    """
-
-    nm = nmap.PortScanner()
-    nm.scan(hosts='192.168.1.0/24', arguments='-sP')
-
-    host_list = nm.all_hosts()
-    for host in host_list:
-        if 'mac' in nm[host]['addresses']:
-            scanned_macs.append(nm[host]['addresses']['mac'])
 
 def db_scanned_macs():
     """
