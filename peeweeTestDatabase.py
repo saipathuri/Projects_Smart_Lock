@@ -16,23 +16,31 @@ def create_db():
 		db.close()
 
 def get_all_Addresses():
-	db.connect()
+	#db.connect()
 	addrs = []
 
 	for adresses in MACAddresses.select():
+		#print('0')
+		print(adresses.macAddress)
 		addrs.append(adresses)
-		print(adresses)
+		#print(adresses)
 
+	for a in addrs:
+		print(a)
+		
 	db.close()
 
 	return addrs
 
+#MACAddresses.delete().where(
+#	(MACAddresses.macAddress == '202.212.292')).execute()
+
 create_db()
-first = MACAddresses(macAddress = '202.212.292')
-first.save()
+first = MACAddresses(macAddress = "202.212.292")
+print(first.save())
+second = MACAddresses(macAddress = "201.209.222")
+print(second.save())
 get_all_Addresses()
-
 db.close()
-
 
 
