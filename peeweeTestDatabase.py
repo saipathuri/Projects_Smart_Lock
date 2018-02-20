@@ -1,4 +1,5 @@
 from peewee import *
+import os
 
 db = SqliteDatabase('Addresses.db')
 
@@ -32,10 +33,15 @@ def get_all_Addresses():
 
 	return addrs
 
-#MACAddresses.delete().where(
-#	(MACAddresses.macAddress == '202.212.292')).execute()
+def clearDB():
+	sql = 'DELETE FROM MACAddresses'
+	#conn = db.connect('Addresses.db')
+	cursor = db.cursor()
 
+	cursor.execute('DELETE FROM MACAddresses')
+	
 create_db()
+clearDB()
 first = MACAddresses(macAddress = "202.212.292")
 print(first.save())
 second = MACAddresses(macAddress = "201.209.222")
