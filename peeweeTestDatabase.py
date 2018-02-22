@@ -54,7 +54,7 @@ def sendMacIntoDB():
 
 	for mac in find_macs.mac_addresses():
 		first = MACAddresses(macAddress = mac)
-		print(first.save)
+		print(first.save())
 	
 create_db()
 clearDB()
