@@ -1,5 +1,8 @@
 from peewee import *
 import os
+import subprocess
+import find_macs
+
 
 db = SqliteDatabase('Addresses.db')
 
@@ -13,8 +16,11 @@ class MACAddresses(Model):
 # creating database
 def create_db():
 		db.connect()
-		db.create_tables([MACAddresses])
+		if not (db.table_exists(MACAddresses)):
+			db.create_tables([MACAddresses])
 		db.close()
+
+
 
 def get_all_Addresses():
 	#db.connect()
@@ -39,13 +45,20 @@ def clearDB():
 	cursor = db.cursor()
 
 	cursor.execute('DELETE FROM MACAddresses')
+
+
+
+
+
+def sendMacIntoDB():
+
+	for mac in find_macs.mac_addresses():
+		first = MACAddresses(macAddress = mac)
+		print(first.save)
 	
 create_db()
 clearDB()
-first = MACAddresses(macAddress = "202.212.292")
-print(first.save())
-second = MACAddresses(macAddress = "201.209.222")
-print(second.save())
+sendMacIntoDB()
 get_all_Addresses()
 db.close()
 
