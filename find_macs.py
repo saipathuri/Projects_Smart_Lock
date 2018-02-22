@@ -2,8 +2,8 @@
 import subprocess
 
 def mac_addresses():
-    subprocess.check_output(['arp','-ad'])
     output = subprocess.check_output(['arp','-a'])
+    subprocess.check_output(['arp','-ad'])
     '''
     ? (192.168.0.1) at d4:5:98:11:a2:97 on en0 ifscope [ethernet]
     ? (192.168.0.9) at 8:d4:c:70:f8:8c on en0 ifscope [ethernet]
