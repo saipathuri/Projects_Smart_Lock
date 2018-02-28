@@ -2,7 +2,7 @@
 import subprocess
 
 def mac_addresses():
-    subprocess.check_output(['arp','-ad'])
+    subprocess.check_output(['arp','--all'])
     output = subprocess.check_output(['arp','-a'])
     '''
     ? (192.168.0.1) at d4:5:98:11:a2:97 on en0 ifscope [ethernet]
@@ -24,8 +24,11 @@ def mac_addresses():
     for line in lines:
         #notice that on each output line, the information is split by a space.
         #we can split each line by a space to get that information
+        print(line)
         tokens = line.split(' ')
-    
+        
         #the mac address on each line is the 4th element
         mac_addresses.append(tokens[3])
     return mac_addresses
+
+mac_addresses()
