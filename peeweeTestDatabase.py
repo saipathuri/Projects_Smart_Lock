@@ -45,11 +45,7 @@ def sendMacIntoDB():
 	addrs = find_macs.mac_addresses()
 	for mac in addrs:
 		first = MACAddresses(macAddress = mac)
-<<<<<<< HEAD
-		print(first.save())
-=======
 		first.save()
->>>>>>> 36d9d29b13181b0f954e052776d6b71683759ed7
 	
 if __name__ == '__main__':
 	db.connect()
