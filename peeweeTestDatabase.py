@@ -8,22 +8,21 @@ db = SqliteDatabase('Addresses.db')
 
 # creating Object to hold send to database
 class MACAddresses(Model):
-		macAddress		= CharField()
+	macAddress		= CharField()
 
-		class Meta:
-				database = db
+	class Meta:
+			database = db
 
 # creating database
 def create_db():
-		db.connect()
-		if not (db.table_exists(MACAddresses)):
-			db.create_tables([MACAddresses])
-		db.close()
+	if not (db.table_exists(MACAddresses)):
+		print "Creating table"
+		db.create_tables([MACAddresses])
 
 
 
 def get_all_Addresses():
-	#db.connect()
+	# db.connect()
 	addrs = []
 
 	for adresses in MACAddresses.select():
@@ -31,35 +30,31 @@ def get_all_Addresses():
 		print(adresses.macAddress)
 		addrs.append(adresses)
 		#print(adresses)
-
-	for a in addrs:
-		print(a)
-		
-	db.close()
-
 	return addrs
 
 def clearDB():
+	print "Clearing DB"
 	sql = 'DELETE FROM MACAddresses'
 	#conn = db.connect('Addresses.db')
 	cursor = db.cursor()
 
 	cursor.execute('DELETE FROM MACAddresses')
 
-
-
-
-
 def sendMacIntoDB():
-
-	for mac in find_macs.mac_addresses():
+	print "Inserting Mac Addresses into DB"
+	addrs = find_macs.mac_addresses()
+	for mac in addrs:
 		first = MACAddresses(macAddress = mac)
+<<<<<<< HEAD
 		print(first.save())
+=======
+		first.save()
+>>>>>>> 36d9d29b13181b0f954e052776d6b71683759ed7
 	
-create_db()
-clearDB()
-sendMacIntoDB()
-get_all_Addresses()
-db.close()
-
-
+if __name__ == '__main__':
+	db.connect()
+	create_db()
+	clearDB()
+	sendMacIntoDB()
+	get_all_Addresses()
+	db.close()
