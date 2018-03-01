@@ -9,6 +9,11 @@ app = Flask(__name__)
 def hello_world():
     return "Hello world"
 
+@app.route('/home')
+def home():
+    items = get_devices()
+    return render_template("home.html",items=items)
+
 @app.route('/macs')
 def template_macs():
     items = get_devices()
