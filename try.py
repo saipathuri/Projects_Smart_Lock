@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 import json
 import nmap
 import sqlite3 as sql
@@ -8,6 +8,11 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return "Hello world"
+
+@app.route('/macs')
+def template_macs():
+    items = get_devices()
+    return render_template("tabled.html",items=items)
 
 @app.route('/insert', methods=['POST','GET'])
 def insert():
