@@ -19,8 +19,6 @@ def create_db():
 		print "Creating table"
 		db.create_tables([MACAddresses])
 
-
-
 def get_all_Addresses():
 	# db.connect()
 	addrs = []
