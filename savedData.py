@@ -28,13 +28,13 @@ def create_db():
 
 #clear Users table
 def clearUsers():
-	print "Clearing Users"
+	print ("Clearing Users")
 	cursor = db.cursor()
 	cursor.execute('DELETE FROM Users')
 
 #clear MAC table
 def clearMAC():
-	print "Clearing MAC"
+	print ("Clearing MAC")
 	cursor = db.cursor()
 	cursor.execute('DELETE FROM MACAddresses')
 
@@ -42,8 +42,13 @@ def clearMAC():
 def addUser(name, pas):
 	newUser = Users(username = name, password = pas)
 	newUser.save()
+	print("Added " + name)
 
 #delete user by name
+def deleteUser(name):
+	deleteUser = Users.get(Users.username == name)
+	deleteUser.delete_instance()
+	print("Deleted " + name)
 
 #add MAC into list of saved
 def addMAC(mac):
@@ -51,7 +56,22 @@ def addMAC(mac):
 	newMAC.save()
 
 #delete MAC by MAC match
+def deleteMAC(MAC):
+	deleteMAC = MACAddresses.get(MACAddresses.macAddress == MAC)
+	deleteMAC.delete_instance()
+	print("Deleted " + MAC)
 
-#find a name
-#find a MAC
+#see if a username exists
+def findUser(name):
+	user = Users.select().where(Users.username == name)
+	print(user.exists)
 
+#see if a MAC address exists
+def findMAC(MAC):
+	mac = MACAddresses.select().where(MACAddresses.macAddress == MAC)
+	print(mac.exists)
+
+
+addUser("John", "abcd")
+findUser("John")
+deleteUser("John")
