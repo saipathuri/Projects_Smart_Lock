@@ -19,7 +19,7 @@ def template_macs():
     items = get_devices()
     return render_template("tabled.html",items=items)
 
-@app.route('/insert', methods=['POST','GET'])
+@app.route('/insert', methods=['POST'])
 def insert():
    error = None
    if request.method == 'POST':
@@ -28,6 +28,14 @@ def insert():
            return "Success!"
        else:
            return "nah"
+   return "you done messed up now son"
+
+@app.route('/insert', methods=['GET'])
+def insert_form():
+   return render_template("input.html")
+
+
+
 
 @app.route('/devices', methods=['GET'])
 def devices():
@@ -46,10 +54,19 @@ def delete():
     if request.method == 'POST':
         if request.form['name']:
             delete_name(request.form['name'])
-            return "gagaa"
+            return "Deleted based on name"
         elif request.form['mac']:
             delete_name(request.form['mac'])
-            return "gogoo"
+            return "Deleted based on html"
+
+@app.route('/devices/delete', methods=['GET'])
+def delete_form():
+    """
+    This deletes the specified name
+    """
+    return render_template("delete.html")
+
+
 
 def delete_name(name):
     """

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+<h1>Insert either name or mac address to be delete </h1>
+<form action="{{ url_for('delete') }}" method="post">
+    <input type="text" name="name">
+    <input type="text" name="mac">
+    <input type="submit">
+</form>
+{% endblock %}
