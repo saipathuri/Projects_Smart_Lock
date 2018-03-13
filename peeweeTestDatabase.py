@@ -16,7 +16,7 @@ class MACAddresses(Model):
 # creating database
 def create_db():
 	if not (db.table_exists(MACAddresses)):
-		print "Creating table"
+		print ("Creating table")
 		db.create_tables([MACAddresses])
 
 def get_all_Addresses():
@@ -31,7 +31,7 @@ def get_all_Addresses():
 	return addrs
 
 def clearDB():
-	print "Clearing DB"
+	print ("Clearing DB")
 	sql = 'DELETE FROM MACAddresses'
 	#conn = db.connect('Addresses.db')
 	cursor = db.cursor()
@@ -39,16 +39,11 @@ def clearDB():
 	cursor.execute('DELETE FROM MACAddresses')
 
 def sendMacIntoDB():
-	print "Inserting Mac Addresses into DB"
+	print ("Inserting Mac Addresses into DB")
 	addrs = find_macs.mac_addresses()
 	for mac in addrs:
 		first = MACAddresses(macAddress = mac)
 		first.save()
 	
 if __name__ == '__main__':
-	db.connect()
-	create_db()
-	clearDB()
-	sendMacIntoDB()
-	get_all_Addresses()
-	db.close()
+	print("pe")
