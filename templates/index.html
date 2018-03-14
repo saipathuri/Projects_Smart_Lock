@@ -1,0 +1,60 @@
+<!--<html lang="en">
+<head>
+    <link href="static/main.css" rel="stylesheet" type="text/css" media="all">
+</head>
+    <body>
+    	<div class="box">
+  			<h1>New User</h1>
+  			<form action="/" method="post">
+    			<input type="text" name="username" id="username" placeholder="Username" required/>
+    			<br>
+    			<input type="password" name="password" id="password" placeholder="Password" required/>
+    			<br>
+    			<input type="submit" class="button" value="Log In"/>
+  			</form>
+		</div>
+
+    <div class="footer">
+    </div>
+    
+    <!--{%if users%}
+    <div class="users" style="margin-left:20%">
+      <h2>Registered Users List</h2>
+      <table style="width:100%;">
+        {%for user in users%}
+          <tr>
+            <td>{{user[0]}}</td>
+          </tr>   
+        {%endfor%}
+      </table>
+    </div>
+    {%endif%} -->
+
+   <!-- <div class="container">
+      <p> Click <a href="/logout">here</a> to logout. </p>
+      {% for message in get_flashed_messages() %}
+        {{ message }}
+      {% endfor %}
+    </div>-->
+
+<html>
+  <head>
+    <title>Create New User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Create a New User</h1>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}">
+         <input type="password" placeholder="Password" name="password" value="{{
+          request.form.password }}">
+        <input class="btn btn-default" type="submit" value="Login">
+      </form>
+      
+    </div>
+  </body>
+</html>
