@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 GPIO.setmode(GPIO.BOARD)
-servoPin=11
+servoPin=14
 GPIO.setup(servoPin, GPIO.OUT)
 pwm=GPIO.PWM(servoPin, 50)
 pwm.start(7)
@@ -20,5 +20,6 @@ def lock_open():
 		time.sleep(.05)
 	return True
 
-pwm.stop()
-GPIO.cleanup()
+def clean_up():
+	pwm.stop()
+	GPIO.cleanup()
