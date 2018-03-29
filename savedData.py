@@ -2,7 +2,7 @@ from peewee import *
 import os
 import subprocess
 import peeweeTestDatabase
-import find_macs
+#import find_macs
 
 db = SqliteDatabase('SavedData.db')
 #userdb = SqliteDatabase('SavedData.db')
@@ -65,7 +65,7 @@ def clearDB():
 #send MACAddresses currently on network to MACAddresses table
 def sendMacIntoDB():
 	print ("Inserting Mac Addresses into DB")
-	addrs = find_macs.mac_addresses()
+	#addrs = find_macs.mac_addresses()
 	for mac in addrs:
 		first = MACAddresses(macAddress = mac)
 		first.save()
@@ -121,7 +121,7 @@ def get_all_WhiteList():
 	whitelist = []
 
 	for adresses in WhiteList.select():
-		whitelist.append(adresses)
+		whitelist.append((adresses.name,adresses.macAddress))
 	return whitelist
 
 def retrieveUsers():
@@ -134,4 +134,5 @@ def retrieveUsers():
 
 if __name__ == '__main__':
 	create_db_user()
-	print(get_all_WhiteList)
+	addWhiteList("Taaha",12345567)
+	print(get_all_WhiteList())
