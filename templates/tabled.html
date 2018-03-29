@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+  <div class="top-pad">
+	<div class="row">
+        <div class="col-sm">Name</div>
+        <div class="col-sm">MAC</div>
+    </div>
+	{% for item in items %}
+        <div class="row">
+            <div class="col-sm">{{item[0]}}</div>
+            <div class="col-sm">{{item[1]}}</div>
+        </div>
+		{% endfor %}
+  </div>
+{% endblock %}

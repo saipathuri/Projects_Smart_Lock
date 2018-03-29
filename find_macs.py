@@ -31,5 +31,3 @@ def mac_addresses():
         #the mac address on each line is the 4th element
         mac_addresses.append(tokens[3])
     return mac_addresses
-
-mac_addresses()
