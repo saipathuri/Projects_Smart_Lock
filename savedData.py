@@ -1,5 +1,8 @@
 from peewee import *
+import os
+import subprocess
 import peeweeTestDatabase
+import find_macs
 
 db = SqliteDatabase('SavedData.db')
 #userdb = SqliteDatabase('SavedData.db')
@@ -131,4 +134,4 @@ def retrieveUsers():
 
 if __name__ == '__main__':
 	create_db_user()
-	print("saved")
+	print(get_all_WhiteList)
