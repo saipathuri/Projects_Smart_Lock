@@ -105,3 +105,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+*.un~
+*.swp
+bin/
+lib64
+pip-selfcheck.json
+pyvenv.cfg
+share/
