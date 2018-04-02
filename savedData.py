@@ -1,7 +1,6 @@
 from peewee import *
 import os
 import subprocess
-import peeweeTestDatabase
 #import find_macs
 
 db = SqliteDatabase('SavedData.db')
