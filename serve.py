@@ -14,41 +14,47 @@ def hello_world():
 @app.route('/home')
 def home():
     #items = get_devices()
-    items = get_all_WhiteList()
-    return render_template("home.html", items=items)
+    return render_template("home.html")
 
 
 @app.route('/macs')
 def template_macs():
-    items = get_all_WhiteList()
-    return render_template("tabled.html", items=items)
+    if 'logged_in' in session:
+        items = get_all_WhiteList()
+        return render_template("tabled.html", items=items)
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/insert', methods=['POST'])
 def insert():
     error = None
-    if request.method == 'POST':
+    if request.method == 'POST' and 'logged_in' in session:
         if valid_insert(request.form['name'], request.form['mac']):
             insert_mac_name(request.form['name'], request.form['mac'])
             return "Success!"
         else:
             return "nah"
-    return "you done messed up now son"
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/insert', methods=['GET'])
 def insert_form():
-    return render_template("input.html")
-
+    if 'logged_in' in session:
+        return render_template("input.html")
+    else:
+        return redirect(url_for('home'))
 
 @app.route('/devices', methods=['GET'])
 def devices():
     """
     This returns a list of device, mac address keypairs
     """
-    error = None
-    if request.method == 'GET':
+    if request.method == 'GET' and 'logged_in' in session:
         return json.dumps(get_devices())
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/devices/delete', methods=['POST'])
@@ -56,13 +62,15 @@ def delete():
     """
     This deletes the specified name
     """
-    if request.method == 'POST':
+    if request.method == 'POST' and 'logged_in' in session:
         if request.form['name']:
             delete_name(request.form['name'])
             return "Deleted based on name"
         elif request.form['mac']:
             delete_name(request.form['mac'])
             return "Deleted based on html"
+    else:
+        return redirect(url_for('home'))
 
 
 @app.route('/devices/delete', methods=['GET'])
@@ -70,7 +78,8 @@ def delete_form():
     """
     This deletes the specified name
     """
-    return render_template("delete.html")
+    if 'logged_in' in session:
+        return render_template("delete.html")
 
 
 @app.route('/new', methods=['POST', 'GET'])

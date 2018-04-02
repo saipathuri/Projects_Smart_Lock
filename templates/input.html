@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+<form action="{{ url_for('insert') }}" method="post">
+    <input type="text" name="name">
+    <input type="text" name="mac">
+    <input type="submit">
+</form>
+{% endblock %}
