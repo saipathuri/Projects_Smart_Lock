@@ -29,7 +29,11 @@
     <nav class="navbar navbar-light bg-light static-top">
       <div class="container">
         <a class="navbar-brand" href="#">Smart Lock</a>
-        <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" href="#">Sign In</a>
+        {% if logged_in == True %}
+          <a class="btn btn-danger" href="/logout">Sign Out</a>
+        {% else %}
+          <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Sign In</a>
+        {% endif %}
       </div>
     </nav>
 
@@ -102,6 +106,8 @@
       </div>
     </header>
 
+
+    {% if logged_in == True %}
     <!-- Icons Grid -->
     <section class="features-icons bg-light text-center">
       <div class="container">
@@ -136,7 +142,7 @@
         </div>
       </div>
     </section>
-
+    {% endif %}
 
     <!-- Image Showcases -->
     <section class="showcase">

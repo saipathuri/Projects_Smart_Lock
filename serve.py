@@ -7,14 +7,14 @@ app = Flask(__name__)
 app.secret_key = "SECRET"
 
 @app.route('/')
-def hello_world():
+def home():
     return render_template("index.html", logged_in='logged_in' in session)
 
 
-@app.route('/home')
-def home():
-    #items = get_devices()
-    return render_template("home.html")
+# @app.route('/home')
+# def home():
+#     #items = get_devices()
+#     return render_template("home.html")
 
 
 @app.route('/macs')
@@ -272,7 +272,7 @@ def match_macs(mac):
 
 
 if __name__ == "__main__":
-    print("you're running this wrong")
+    app.run(host="0.0.0.0", port=5000, debug=True)
     """
     main()
     print(get_macs())
