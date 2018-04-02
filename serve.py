@@ -8,7 +8,7 @@ app.secret_key = "SECRET"
 
 @app.route('/')
 def hello_world():
-    return render_template("index.html")
+    return render_template("index.html", logged_in='logged_in' in session)
 
 
 @app.route('/home')
