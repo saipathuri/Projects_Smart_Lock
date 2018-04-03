@@ -2,8 +2,8 @@
 import subprocess
 
 def mac_addresses():
-    output = subprocess.check_output(['arp','-a'])
-    subprocess.check_output(['ip -s -s neigh flush all'], shell=True)
+    output = subprocess.check_output(['sudo arp-scan --localnet --interface=wlan0'], shell=True)
+    subprocess.check_output(['sudo ip -s -s neigh flush all'], shell=True)
     
     '''
     ? (192.168.0.1) at d4:5:98:11:a2:97 on en0 ifscope [ethernet]
@@ -17,17 +17,21 @@ def mac_addresses():
     '''
 
     #split the output by each line
-    lines = output.split('\n')
-    lines = lines[0:-1]
+    #output = output.encode("utf-8") 
+    lines = output.split(b'\n')
+    lines = lines[2:-4]
     mac_addresses = []
 
     #loop through each line of the output
     for line in lines:
         #notice that on each output line, the information is split by a space.
         #we can split each line by a space to get that information
-        print(line)
-        tokens = line.split(' ')
+        #line.encode('utf-8')
+        #print(line)
+        tokens = line.split(b'\t')
         
         #the mac address on each line is the 4th element
-        mac_addresses.append(tokens[3])
+        mac_addresses.append(tokens[1])
     return mac_addresses
+
+#print(mac_addresses())
