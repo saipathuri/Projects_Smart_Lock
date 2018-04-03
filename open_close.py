@@ -1,3 +1,4 @@
+from time import sleep
 import savedData
 import servo
 
@@ -8,12 +9,12 @@ def main():
     wlst = savedData.get_all_WhiteList()
     adrs = savedData.get_all_Addresses()
     for w in wlst:
-        print(w)
         if w[1] in adrs:
             print('working')
             servo.unlock()
         else:
             servo.lock()
+    sleep(1)
 
 if __name__ == "__main__":
     servo.clean_up()
