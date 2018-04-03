@@ -8,7 +8,8 @@ app.secret_key = "SECRET"
 
 @app.route('/')
 def home():
-    return render_template("index.html", logged_in='logged_in' in session)
+    items = get_all_WhiteList()
+    return render_template("index.html", logged_in='logged_in' in session, items=items)
 
 
 # @app.route('/home')
@@ -30,11 +31,11 @@ def template_macs():
 def insert():
     error = None
     if request.method == 'POST' and 'logged_in' in session:
-        if valid_insert(request.form['name'], request.form['mac']):
-            insert_mac_name(request.form['name'], request.form['mac'])
-            return "Success!"
+        if valid_insert(request.form['name'], request.form['macAddress']):
+            insert_mac_name(request.form['name'], request.form['macAddress'])
+            return redirect(url_for('home'))
         else:
-            return "nah"
+            return redirect(url_for('home'))
     else:
         return redirect(url_for('home'))
 
@@ -67,7 +68,7 @@ def delete():
             delete_name(request.form['name'])
             return "Deleted based on name"
         elif request.form['mac']:
-            delete_name(request.form['mac'])
+            delete_name(request.form['macAddress'])
             return "Deleted based on html"
     else:
         return redirect(url_for('home'))
@@ -99,7 +100,7 @@ def login():
             error = 'Try again'
         else:
             session['logged_in'] = True
-            flash('Logged in!')
+            #flash('Logged in!')
             return redirect(url_for('home'))
     return render_template('login.html', error=error)
 
@@ -116,14 +117,14 @@ def delete_name(name):
     This function will delete based on the name
     """
 
-    conn = connect()
-    c = conn.cursor()
+    #conn = connect()
+    c = db.cursor()
 
-    c.execute("""DELETE FROM devices 
+    c.execute("""DELETE FROM WhiteList 
                  WHERE name = ?""", (name, ))
 
-    conn.commit()
-    conn.close()
+    #conn.commit()
+    #conn.close()
 
 
 def get_devices():
@@ -136,13 +137,13 @@ def get_devices():
     """
     devices = []
 
-    conn = connect()
-    c = conn.cursor()
+    #conn = connect()
+    c = db.cursor()
 
-    for row in c.execute("""SELECT * FROM devices"""):
+    for row in c.execute("""SELECT * FROM WhiteList"""):
         devices.append((row[1], row[2]))
 
-    conn.close()
+    #conn.close()
 
     return devices
 
@@ -173,7 +174,7 @@ def connect():
         sqlite3.Connection: connection to db
     """
 
-    return sql.connect('test.db')
+    #return sql.connect('SavedData.db')
 
 
 def create_db():
@@ -181,25 +182,25 @@ def create_db():
     This function creates a table called devices
     """
 
-    conn = connect()
-    c = conn.cursor()
+    #conn = connect()
+    c = db.cursor()
 
     c.execute("""CREATE TABLE devices 
-                 (id INTEGER PRIMARY KEY, name varchar(25), mac varchar(30))"""
+                 (id INTEGER PRIMARY KEY, name varchar(25), macAddress varchar(30))"""
               )
 
-    conn.commit()
-    conn.close()
+   # conn.commit()
+   # conn.close()
 
 
 def main():
-    conn = connect()
-    c = conn.cursor()
+   # conn = connect()
+  #  c = conn.cursor()
 
-    #create_db()
+    create_db()
 
 
-def insert_mac_name(name, mac):
+def insert_mac_name(name, macAddress):
     """
     This function inserts the name and mac address of a device into the devices
     table of the db
@@ -209,13 +210,13 @@ def insert_mac_name(name, mac):
         mac  (str): the mac address of the device
     """
 
-    conn = connect()
-    c = conn.cursor()
+    #conn = connect()
+    c = db.cursor()
 
-    c.execute("""INSERT INTO devices (name, mac) VALUES (?, ?)""", (name, mac))
+    c.execute("""INSERT INTO WhiteList (name, macAddress) VALUES (?, ?)""", (name, macAddress))
 
-    conn.commit()
-    conn.close()
+    #conn.commit()
+    #conn.close()
 
 
 def get_macs():
@@ -227,13 +228,13 @@ def get_macs():
     """
     macs = []
 
-    conn = connect()
-    c = conn.cursor()
+    #conn = connect()
+    c = db.cursor()
 
-    for row in c.execute("""SELECT mac FROM devices"""):
+    for row in c.execute("""SELECT macAddress FROM WhiteList"""):
         macs.append(row[0])
 
-    conn.close()
+    #conn.close()
 
     return macs
 
@@ -246,8 +247,8 @@ def db_scanned_macs():
 
     return_list = []
 
-    conn = connect()
-    c = conn.cursor()
+   # conn = connect()
+    c = db.cursor()
 
     c.execute("SELECT * FROM scanned")
 
@@ -275,6 +276,8 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
     """
     main()
+
+    
     print(get_macs())
     print(match_macs("eyeyeyey"))
     print(match_macs("eyeyeyea"))
