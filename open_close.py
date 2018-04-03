@@ -6,18 +6,30 @@ should_be_open = False
 is_open = False
 
 def main():
+    savedData.clearDB()
+    savedData.sendMacIntoDB()
     wlst = savedData.get_all_WhiteList()
     adrs = savedData.get_all_Addresses()
+    
     for w in wlst:
         if w[1] in adrs:
             print('working')
-            servo.unlock()
+            print(str(w[1]) + ' ' + str(adrs)) 
+            should_be_open = True
         else:
-            servo.lock()
+            should_be_open = False
+    
+    if should_be_open:
+        servo.unlock()
+    else:
+        servo.lock()
+    
     sleep(1)
 
 if __name__ == "__main__":
-    servo.clean_up()
+    servo.lock()
+    print(True)
+    sleep(5)
     while(True):
         main()
     
