@@ -21,10 +21,11 @@ def main():
     
     if should_be_open:
         servo.unlock()
+        sleep(10)
     else:
         servo.lock()
+        
     
-    sleep(1)
 
 if __name__ == "__main__":
     servo.lock()
