@@ -81,7 +81,7 @@
     </div>
 
 
-
+    {% if logged_in == False %}
     <!-- Masthead -->
     <header class="masthead text-white text-center">
       <div class="overlay"></div>
@@ -106,6 +106,22 @@
       </div>
     </header>
 
+    {% endif %}
+
+    {% if logged_in == True %}
+        <!-- Masthead -->
+    <header class="masthead text-white text-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mb-5">Welcome to your Smart Lock</h1>
+          </div>    
+        </div>
+      </div>
+    </header>
+
+    {% endif %}
 
     {% if logged_in == True %}
 
