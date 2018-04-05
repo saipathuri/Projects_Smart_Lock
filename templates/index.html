@@ -125,7 +125,7 @@
 
     {% if logged_in == True %}
 
-    <h1> Trusted Devices </h1>
+    <h1> Add New Device </h1>
     
     <div class="container">
        <form action="/insert" method="post">
@@ -156,7 +156,7 @@
                {% endfor %}
         </div>
 
-    <h2> <br> Current Devices </h2>
+    <h2> <br> Trusted Devices </h2>
     {% include 'tabled.html' %}
 
     {% endif %}
